@@ -30,7 +30,7 @@ void cat_func(FILE *file)
         
         if ((n_flag || b_flag) && is_first_char)
         {
-            if (b_flag && len != 0)
+            if (b_flag && len != 0 || n_flag)
             {
                 printf("%6d\t", lines++);
             }
