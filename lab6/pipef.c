@@ -12,10 +12,10 @@
 #define TIMESTAMP_BUFFER_SIZE 128
 #define MESSAGE_BUFFER_SIZE 256
 #define FIFO_BUFFER_SIZE 512
-#define FIFO_PATH "/tmp/myfifo_lab6"
+#define FIFO_PATH "/tmp/myfifo"
 #define FIFO_PERMISSIONS 0666
 
-#define PIPE_DELAY_SECONDS 6
+#define PIPE_DELAY_SECONDS 3
 #define FIFO_DELAY_SECONDS 11
 
 #define EXIT_SUCCESS 0
@@ -73,7 +73,7 @@ static void format_timestamp(time_t t, char *buffer, size_t buffer_size)
     }
 }
 
-int run_pipe_example(void)
+int runPipe(void)
 {
     int fds[2];
     if (pipe(fds) != 0)
@@ -151,7 +151,7 @@ int run_pipe_example(void)
     }
 }
 
-int run_fifo_write(const char *fifo_path)
+int runFifoWrite(const char *fifo_path)
 {
     int fd = open(fifo_path, O_WRONLY);
     if (fd < 0)
@@ -173,7 +173,7 @@ int run_fifo_write(const char *fifo_path)
     return EXIT_SUCCESS;
 }
 
-int run_fifo_read(const char *fifo_path)
+int runFifoRead(const char *fifo_path)
 {
     int fd = open(fifo_path, O_RDONLY);
     if (fd < 0)
@@ -220,33 +220,31 @@ int main(int argc, char *argv[])
 {
     if (argc == 1)
     {
-        return run_pipe_example();
+        return runPipe();
     }
 
-    if (argc >= 2 && strcmp(argv[1], "fifo-write") == 0)
+    if (argc >= 2 && strcmp(argv[1], "fw") == 0)
     {
         if (mkfifo(FIFO_PATH, FIFO_PERMISSIONS) < 0 && errno != EEXIST)
         {
             return EXIT_FAILURE;
         }
-        return run_fifo_write(FIFO_PATH);
+        return runFifoWrite(FIFO_PATH);
     }
 
-    if (argc >= 2 && strcmp(argv[1], "fifo-read") == 0)
+    if (argc >= 2 && strcmp(argv[1], "fr") == 0)
     {
         if (mkfifo(FIFO_PATH, FIFO_PERMISSIONS) < 0 && errno != EEXIST)
         {
             return EXIT_FAILURE;
         }
-        return run_fifo_read(FIFO_PATH);
+        return runFifoRead(FIFO_PATH);
     }
 
     fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  %s         # run pipe+fork example\n", argv[0]);
-    fprintf(stderr, "  %s fifo-write  # run FIFO writer (separate process)\n",
-            argv[0]);
-    fprintf(stderr, "  %s fifo-read   # run FIFO reader (separate process)\n",
-            argv[0]);
+    fprintf(stderr, "  %s run pipe+fork\n", argv[0]);
+    fprintf(stderr, "  %s fifo-write run FIFO writer\n", argv[0]);
+    fprintf(stderr, "  %s fifo-read run FIFO reader\n",  argv[0]);
 
     return EXIT_FAILURE;
 }
