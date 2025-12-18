@@ -241,10 +241,5 @@ int main(int argc, char *argv[])
         return runFifoRead(FIFO_PATH);
     }
 
-    fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "  %s run pipe+fork\n", argv[0]);
-    fprintf(stderr, "  %s fifo-write run FIFO writer\n", argv[0]);
-    fprintf(stderr, "  %s fifo-read run FIFO reader\n",  argv[0]);
-
     return EXIT_FAILURE;
 }
