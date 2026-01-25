@@ -1,4 +1,4 @@
-TARGET = myrwlock
+TARGET = mycond
 SRC = $(wildcard *.c)
 OBJ = $(patsubst %.c, %.o, $(SRC))
 CFLAGS = -Wall -Wextra -g
@@ -7,8 +7,8 @@ CFLAGS = -Wall -Wextra -g
 all: ${TARGET}
 
 clean:
-		rm -f $(TARGET) *.o myrwlock
+		rm -f $(TARGET) *.o mycond
 
-myrwlock: myrwlock.c
+mycond: mycond.c
 		gcc -std=c99 $(CFLAGS) $< -o $@ -fsanitize=address
 	
