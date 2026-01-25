@@ -21,7 +21,6 @@ void *data_writer(void *arg)
 
     while (1)
     {
-        sem_wait(&buffer_semaphore);
         snprintf(shared_buffer, sizeof(shared_buffer), "%d", counter++);
         sem_post(&buffer_semaphore);
         sleep(SLEEP_TIME_SECONDS);
@@ -39,8 +38,6 @@ void *data_reader(void *arg)
         sem_wait(&buffer_semaphore);
         printf("[READER] TID=%lu buffer=%s\n", (unsigned long)pthread_self(),
                shared_buffer);
-        sem_post(&buffer_semaphore);
-        sleep(SLEEP_TIME_SECONDS);
     }
 
     pthread_exit(NULL);
